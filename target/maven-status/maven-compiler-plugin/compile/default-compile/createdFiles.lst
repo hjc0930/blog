@@ -1,0 +1,6 @@
+com\hjc\blog\dto\LoginRequest.class
+com\hjc\blog\vo\LoginResponse.class
+com\hjc\blog\service\impl\AuthServiceImpl.class
+com\hjc\blog\dto\RegisterRequest.class
+com\hjc\blog\service\AuthService.class
+com\hjc\blog\vo\LoginResponse$LoginResponseBuilder.class

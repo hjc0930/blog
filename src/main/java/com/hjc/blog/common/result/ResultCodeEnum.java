@@ -17,6 +17,7 @@ public enum ResultCodeEnum {
     USER_PASSWORD_ERROR("10003", "密码错误"),
     USER_ACCOUNT_LOCKED("10004", "账号已被锁定"),
     USER_LOGIN_EXPIRED("10005", "登录已过期"),
+    USER_EMAIL_EXIST("10006", "邮箱已被注册"),
 
     // 参数相关 2000-2999
     PARAM_ERROR("20001", "参数错误"),
