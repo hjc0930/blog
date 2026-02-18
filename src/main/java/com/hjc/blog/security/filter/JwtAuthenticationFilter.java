@@ -18,6 +18,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.hjc.blog.common.Constants.AUTHORIZATION_HEADER;
+import static com.hjc.blog.common.Constants.BEARER_PREFIX;
+
 /**
  * JWT 认证过滤器
  * 从请求头中提取 Token 并验证，设置认证信息到 SecurityContext
@@ -29,8 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String BEARER_PREFIX = "Bearer ";
 
     @Override
     protected void doFilterInternal(
@@ -39,12 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         try {
+            // 获取token
             String token = extractTokenFromRequest(request);
-
+            // 验证token是否有效
             if (StringUtils.hasText(token) && jwtUtil.validateToken(token)) {
                 Long userId = jwtUtil.getUserIdFromToken(token);
                 String username = jwtUtil.getUsernameFromToken(token);
-
+                // 设置security 上下文用户信息
                 if (userId != null && username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     BlogUserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
