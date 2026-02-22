@@ -1,10 +1,10 @@
 package com.hjc.blog.controller;
 
 import com.hjc.blog.common.result.Result;
-import com.hjc.blog.dto.LoginRequest;
-import com.hjc.blog.dto.RegisterRequest;
+import com.hjc.blog.dto.LoginDto;
+import com.hjc.blog.dto.RegisterDto;
 import com.hjc.blog.service.AuthService;
-import com.hjc.blog.vo.LoginResponse;
+import com.hjc.blog.vo.LoginVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,9 +28,9 @@ public class AuthController {
      */
     @Operation(summary = "用户登录", description = "支持用户名或邮箱登录")
     @PostMapping("/login")
-    public Result<LoginResponse> login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+    public Result<LoginVo> login(@Valid @RequestBody LoginDto request, HttpServletRequest httpRequest) {
         String ip = getClientIp(httpRequest);
-        LoginResponse response = authService.login(request, ip);
+        LoginVo response = authService.login(request, ip);
         return Result.success(response);
     }
 
@@ -39,8 +39,8 @@ public class AuthController {
      */
     @Operation(summary = "用户注册", description = "注册成功后自动登录")
     @PostMapping("/register")
-    public Result<LoginResponse> register(@Valid @RequestBody RegisterRequest request) {
-        LoginResponse response = authService.register(request);
+    public Result<LoginVo> register(@Valid @RequestBody RegisterDto request) {
+        LoginVo response = authService.register(request);
         return Result.success(response);
     }
 

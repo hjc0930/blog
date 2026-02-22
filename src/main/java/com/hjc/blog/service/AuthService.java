@@ -1,8 +1,8 @@
 package com.hjc.blog.service;
 
-import com.hjc.blog.dto.LoginRequest;
-import com.hjc.blog.dto.RegisterRequest;
-import com.hjc.blog.vo.LoginResponse;
+import com.hjc.blog.dto.LoginDto;
+import com.hjc.blog.dto.RegisterDto;
+import com.hjc.blog.vo.LoginVo;
 
 /**
  * 认证服务接口
@@ -16,7 +16,7 @@ public interface AuthService {
      * @param ip      客户端IP
      * @return 登录响应（包含Token）
      */
-    LoginResponse login(LoginRequest request, String ip);
+    LoginVo login(LoginDto request, String ip);
 
     /**
      * 用户注册
@@ -24,5 +24,5 @@ public interface AuthService {
      * @param request 注册请求
      * @return 登录响应（注册成功后自动登录）
      */
-    LoginResponse register(RegisterRequest request);
+    LoginVo register(RegisterDto request);
 }

@@ -70,6 +70,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/login",
                                 "/auth/register",
+                                "/article/list",
+                                "/article/{id}",
                                 "/doc.html",
                                 "/webjars/**",
                                 "/swagger-resources/**",
@@ -77,6 +79,9 @@ public class SecurityConfig {
                                 "/favicon.ico",
                                 "/error"
                         ).permitAll()
+
+                        // 管理员接口
+                        .requestMatchers("/article/{id}/top", "/article/{id}/featured").hasRole("ADMIN")
 
                         // 其他请求需要认证
                         .anyRequest().authenticated()

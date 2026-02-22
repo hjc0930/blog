@@ -7,14 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 登录响应VO
+ * 登录VO
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "登录响应")
-public class LoginResponse {
+public class LoginVo {
 
     @Schema(description = "访问令牌")
     private String token;

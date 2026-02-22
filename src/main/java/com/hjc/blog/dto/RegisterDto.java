@@ -8,11 +8,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * 注册请求DTO
+ * 注册DTO
  */
 @Data
 @Schema(description = "注册请求")
-public class RegisterRequest {
+public class RegisterDto {
 
     @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "testuser")
     @NotBlank(message = "用户名不能为空")

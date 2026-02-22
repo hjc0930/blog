@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
- * 登录请求DTO
+ * 登录DTO
  */
 @Data
 @Schema(description = "登录请求")
-public class LoginRequest {
+public class LoginDto {
 
     @Schema(description = "用户名或邮箱", requiredMode = Schema.RequiredMode.REQUIRED, example = "admin")
     @NotBlank(message = "用户名不能为空")

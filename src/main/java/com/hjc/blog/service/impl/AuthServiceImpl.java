@@ -3,10 +3,10 @@ package com.hjc.blog.service.impl;
 import com.hjc.blog.common.exception.BusinessException;
 import com.hjc.blog.common.result.ResultCodeEnum;
 import com.hjc.blog.common.utils.JwtUtil;
-import com.hjc.blog.dto.LoginRequest;
-import com.hjc.blog.dto.RegisterRequest;
+import com.hjc.blog.dto.LoginDto;
+import com.hjc.blog.dto.RegisterDto;
 import com.hjc.blog.entity.User;
-import com.hjc.blog.vo.LoginResponse;
+import com.hjc.blog.vo.LoginVo;
 import com.hjc.blog.service.AuthService;
 import com.hjc.blog.service.UserService;
 import jakarta.annotation.Resource;
@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
     private JwtUtil jwtUtil;
 
     @Override
-    public LoginResponse login(LoginRequest request, String ip) {
+    public LoginVo login(LoginDto request, String ip) {
         String username = request.getUsername();
 
         // 查找用户（支持用户名或邮箱登录）
@@ -65,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
 
         log.info("用户登录成功: {}", username);
 
-        return LoginResponse.builder()
+        return LoginVo.builder()
                 .token(token)
                 .userId(user.getId())
                 .username(user.getUsername())
@@ -77,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public LoginResponse register(RegisterRequest request) {
+    public LoginVo register(RegisterDto request) {
         String username = request.getUsername();
         String email = request.getEmail();
 
@@ -110,7 +110,7 @@ public class AuthServiceImpl implements AuthService {
         // 注册成功后自动登录
         String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
 
-        return LoginResponse.builder()
+        return LoginVo.builder()
                 .token(token)
                 .userId(user.getId())
                 .username(user.getUsername())
