@@ -2,6 +2,7 @@ package com.hjc.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hjc.blog.common.exception.BusinessException;
@@ -218,15 +219,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         // 排序：置顶优先，然后按指定字段排序
         wrapper.orderByDesc(Article::getIsTop);
-        if ("publishTime".equals(request.getOrderBy())) {
-            wrapper.orderBy(true, request.getAsc(), Article::getPublishTime);
-        } else if ("viewCount".equals(request.getOrderBy())) {
-            wrapper.orderBy(true, request.getAsc(), Article::getViewCount);
-        } else if ("likeCount".equals(request.getOrderBy())) {
-            wrapper.orderBy(true, request.getAsc(), Article::getLikeCount);
-        } else {
-            wrapper.orderBy(true, request.getAsc(), Article::getCreateTime);
-        }
+        SFunction<Article, ?> orderColumnFn = switch (request.getOrderBy()) {
+            case "publishTime" -> Article::getPublishTime;
+            case "viewCount" -> Article::getViewCount;
+            case "likeCount" -> Article::getLikeCount;
+            default -> Article::getCreateTime;
+        };
+        wrapper.orderBy(true, request.getAsc(), orderColumnFn);
 
         Page<Article> articlePage = page(page, wrapper);
 
@@ -234,7 +233,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Page<ArticleListVo> voPage = new Page<>(articlePage.getCurrent(), articlePage.getSize(), articlePage.getTotal());
         voPage.setRecords(articlePage.getRecords().stream()
                 .map(this::convertToListVO)
-                .collect(Collectors.toList()));
+                .toList());
 
         return voPage;
     }

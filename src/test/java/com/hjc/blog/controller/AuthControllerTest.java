@@ -1,9 +1,9 @@
 package com.hjc.blog.controller;
 
-import com.hjc.blog.dto.LoginRequest;
-import com.hjc.blog.dto.RegisterRequest;
+import com.hjc.blog.dto.LoginDto;
+import com.hjc.blog.dto.RegisterDto;
 import com.hjc.blog.service.AuthService;
-import com.hjc.blog.vo.LoginResponse;
+import com.hjc.blog.vo.LoginVo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,26 +36,26 @@ class AuthControllerTest {
     @InjectMocks
     private AuthController authController;
 
-    private LoginRequest loginRequest;
-    private RegisterRequest registerRequest;
-    private LoginResponse loginResponse;
+    private LoginDto loginRequest;
+    private RegisterDto registerRequest;
+    private LoginVo loginResponse;
 
     @BeforeEach
     void setUp() {
         // 登录请求
-        loginRequest = new LoginRequest();
+        loginRequest = new LoginDto();
         loginRequest.setUsername("testuser");
         loginRequest.setPassword("123456");
 
         // 注册请求
-        registerRequest = new RegisterRequest();
+        registerRequest = new RegisterDto();
         registerRequest.setUsername("newuser");
         registerRequest.setPassword("123456");
         registerRequest.setEmail("new@example.com");
         registerRequest.setNickname("新用户");
 
         // 登录响应
-        loginResponse = LoginResponse.builder()
+        loginResponse = LoginVo.builder()
                 .token("mock.jwt.token")
                 .userId(1L)
                 .username("testuser")
@@ -72,7 +72,7 @@ class AuthControllerTest {
     @DisplayName("登录成功")
     void testLogin_Success() {
         // Arrange
-        when(authService.login(any(LoginRequest.class), any(String.class))).thenReturn(loginResponse);
+        when(authService.login(any(LoginDto.class), any(String.class))).thenReturn(loginResponse);
 
         // Act
         var result = authController.login(loginRequest, request);
@@ -88,14 +88,14 @@ class AuthControllerTest {
         assertEquals("测试用户", result.getData().getNickname());
         assertEquals("USER", result.getData().getRole());
 
-        verify(authService).login(any(LoginRequest.class), any(String.class));
+        verify(authService).login(any(LoginDto.class), any(String.class));
     }
 
     @Test
     @DisplayName("注册成功")
     void testRegister_Success() {
         // Arrange
-        when(authService.register(any(RegisterRequest.class))).thenReturn(loginResponse);
+        when(authService.register(any(RegisterDto.class))).thenReturn(loginResponse);
 
         // Act
         var result = authController.register(registerRequest);
@@ -109,7 +109,7 @@ class AuthControllerTest {
         assertEquals(1L, result.getData().getUserId());
         assertEquals("testuser", result.getData().getUsername());
 
-        verify(authService).register(any(RegisterRequest.class));
+        verify(authService).register(any(RegisterDto.class));
     }
 
     @Test
@@ -123,7 +123,7 @@ class AuthControllerTest {
 
         // Assert
         assertNotNull(result);
-        verify(authService).login(any(LoginRequest.class), eq("192.168.1.1"));
+        verify(authService).login(any(LoginDto.class), eq("192.168.1.1"));
     }
 
     @Test
@@ -138,7 +138,7 @@ class AuthControllerTest {
 
         // Assert
         assertNotNull(result);
-        verify(authService).login(any(LoginRequest.class), eq("192.168.1.2"));
+        verify(authService).login(any(LoginDto.class), eq("192.168.1.2"));
     }
 
     @Test
@@ -154,7 +154,7 @@ class AuthControllerTest {
 
         // Assert
         assertNotNull(result);
-        verify(authService).login(any(LoginRequest.class), eq("192.168.1.3"));
+        verify(authService).login(any(LoginDto.class), eq("192.168.1.3"));
     }
 
     @Test
@@ -168,7 +168,7 @@ class AuthControllerTest {
 
         // Assert
         assertNotNull(result);
-        verify(authService).login(any(LoginRequest.class), eq("192.168.1.4"));
+        verify(authService).login(any(LoginDto.class), eq("192.168.1.4"));
     }
 
     @Test
@@ -184,6 +184,6 @@ class AuthControllerTest {
 
         // Assert
         assertNotNull(result);
-        verify(authService).login(any(LoginRequest.class), eq("192.168.1.7"));
+        verify(authService).login(any(LoginDto.class), eq("192.168.1.7"));
     }
 }

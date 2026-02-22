@@ -3,8 +3,8 @@ package com.hjc.blog.service.impl;
 import com.hjc.blog.common.exception.BusinessException;
 import com.hjc.blog.common.result.ResultCodeEnum;
 import com.hjc.blog.common.utils.JwtUtil;
-import com.hjc.blog.dto.LoginRequest;
-import com.hjc.blog.dto.RegisterRequest;
+import com.hjc.blog.dto.LoginDto;
+import com.hjc.blog.dto.RegisterDto;
 import com.hjc.blog.entity.User;
 import com.hjc.blog.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,8 +42,8 @@ class AuthServiceImplTest {
 
     private User normalUser;
     private User lockedUser;
-    private LoginRequest loginRequest;
-    private RegisterRequest registerRequest;
+    private LoginDto loginRequest;
+    private RegisterDto registerRequest;
 
     @BeforeEach
     void setUp() {
@@ -66,12 +66,12 @@ class AuthServiceImplTest {
         lockedUser.setStatus(0);
 
         // 登录请求
-        loginRequest = new LoginRequest();
+        loginRequest = new LoginDto();
         loginRequest.setUsername("testuser");
         loginRequest.setPassword("123456");
 
         // 注册请求
-        registerRequest = new RegisterRequest();
+        registerRequest = new RegisterDto();
         registerRequest.setUsername("newuser");
         registerRequest.setPassword("123456");
         registerRequest.setEmail("new@example.com");
